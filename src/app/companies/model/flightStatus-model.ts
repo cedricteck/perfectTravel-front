@@ -1,0 +1,3 @@
+export enum FlightStatusModel {
+  CONFIRMED = 'CONFIRMED', CANCELED = 'CANCELED', SUSPENDED = 'SUSPENDED', REPORTED = 'REPORTED'
+}
