@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CompanyModel} from "./model/company-model";
 import {CompaniesService} from "./companies-service";
 import {FormBuilder} from "@angular/forms";
 import {FlightStatusModel} from "./model/flightStatus-model";
 import {MatSelectChange} from "@angular/material/select";
-import {$e} from "codelyzer/angular/styles/chars";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {SuccessSnackBarComponent} from "../success-snack-bar/success-snack-bar.component";
 
 @Component({
   selector: 'app-companies',
@@ -14,7 +14,7 @@ import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 })
 export class CompaniesComponent implements OnInit {
 
-  constructor(private companiesService: CompaniesService, private formBuilder: FormBuilder) {
+  constructor(private companiesService: CompaniesService, private formBuilder: FormBuilder, private successSnackBar: SuccessSnackBarComponent) {
     this.form = this.formBuilder.group({
       flightStatus: [''],
       until: [''],
@@ -48,6 +48,7 @@ export class CompaniesComponent implements OnInit {
     console.log(this.currentCompany);
     this.companiesService.saveCompany(this.currentCompany).subscribe( company => {
       this.currentCompany = new CompanyModel(company);
+      this.successSnackBar.openSnackBar("Company policy was saved successfully !")
     });
   }
 

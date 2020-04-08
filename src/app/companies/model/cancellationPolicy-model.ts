@@ -19,7 +19,7 @@ export class CancellationPolicyModel {
    this.id = cancellationPolicyModel.id || '';
    this.flightStatus = cancellationPolicyModel.flightStatus || null;
    this.until = cancellationPolicyModel.until || null;
-   this.lastUpdatedDate = cancellationPolicyModel.lastUpdatedDate || '';
+   this.lastUpdatedDate = cancellationPolicyModel.lastUpdatedDate || undefined;
    this.generalInfo = cancellationPolicyModel.generalInfo || '';
    this.conditions = cancellationPolicyModel.conditions || '';
  }
