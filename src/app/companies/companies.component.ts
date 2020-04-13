@@ -6,6 +6,7 @@ import {FlightStatusModel} from "./model/flightStatus-model";
 import {MatSelectChange} from "@angular/material/select";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {SuccessSnackBarComponent} from "../success-snack-bar/success-snack-bar.component";
+import {AuthenticationService} from "../login/auth.service";
 
 @Component({
   selector: 'app-companies',
@@ -14,7 +15,8 @@ import {SuccessSnackBarComponent} from "../success-snack-bar/success-snack-bar.c
 })
 export class CompaniesComponent implements OnInit {
 
-  constructor(private companiesService: CompaniesService, private formBuilder: FormBuilder, private successSnackBar: SuccessSnackBarComponent) {
+  constructor(private companiesService: CompaniesService, private formBuilder: FormBuilder, private successSnackBar: SuccessSnackBarComponent,
+              private authenticationService: AuthenticationService) {
     this.form = this.formBuilder.group({
       flightStatus: [''],
       until: [''],
@@ -34,7 +36,11 @@ export class CompaniesComponent implements OnInit {
   keys = Object.keys;
   flightStatuses = FlightStatusModel;
 
+  isLoggedIn = false;
+
   ngOnInit(): void {
+    this.isLoggedIn = this.authenticationService.isUserLoggedIn();
+    console.log(this.isLoggedIn);
     this.companiesService.getAllCompanies().subscribe( companies => {
       this.companies = companies.map( it =>  new CompanyModel(it));
     })

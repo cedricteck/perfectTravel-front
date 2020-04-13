@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CompaniesComponent} from './companies/companies.component';
 import {CompaniesService} from "./companies/companies-service";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -22,14 +22,25 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { SuccessSnackBarComponent } from './success-snack-bar/success-snack-bar.component';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { LoginComponent } from './login/login.component';
+import {RouterModule, Routes} from "@angular/router";
+import {HttpInterceptorService} from "./http-interceptor.service";
 registerLocaleData(localeFr, 'fr');
+
+const routes: Routes = [
+  {path: 'login', component: LoginComponent},
+  {path: '', component: CompaniesComponent},
+  {path: 'companies', component: CompaniesComponent},
+  {path: 'logout', component: LoginComponent},
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     CompaniesComponent,
     NavBarComponent,
-    SuccessSnackBarComponent
+    SuccessSnackBarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -46,9 +57,15 @@ registerLocaleData(localeFr, 'fr');
     MatNativeDateModule,
     MatCardModule,
     MatDividerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    RouterModule.forRoot(routes)
   ],
-  providers: [CompaniesService,  {provide: LOCALE_ID, useValue: "fr-FR" }, MatSnackBar, SuccessSnackBarComponent],
+  exports: [RouterModule],
+  providers: [CompaniesService,  {provide: LOCALE_ID, useValue: "fr-FR" }, MatSnackBar, SuccessSnackBarComponent, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,4 @@
+<app-nav-bar [isLoggedIn]="isLoggedIn"></app-nav-bar>
 <div class="company-card text-center card border-0 shadow my-5">
   <div class="card-body p-5">
     <h2>Airlines cancelation policy</h2>
@@ -21,59 +22,62 @@
       </div>
 
       <form (ngSubmit)="onSubmit()">
-
-        <div class="form-group">
-          <mat-form-field>
-            <mat-label>Flight status : </mat-label>
-            <mat-select name="flightStatus" [ngModel]="currentCompany.cancellationPolicy.flightStatus" (selectionChange)="changeStatus($event)">
-              <mat-option *ngFor="let status of keys(flightStatuses)" [value]="status">{{flightStatuses[status]}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field>
-            <mat-label>Date until when the flight are {{this.currentCompany.cancellationPolicy.flightStatus}}</mat-label>
-            <input matInput [value]="currentCompany.cancellationPolicy.until" [matDatepicker]="picker" (dateChange)="onDateChange($event)">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <div class="form-group">
-          <mat-form-field>
-            <mat-label>General informations</mat-label>
-            <textarea rows="10" matInput name="generalInfo" [(ngModel)]="currentCompany.cancellationPolicy.generalInfo"></textarea>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field>
-            <mat-label>Conditions</mat-label>
-            <textarea rows="10" matInput name="conditions" [(ngModel)]="currentCompany.cancellationPolicy.conditions"></textarea>
-          </mat-form-field>
-        </div>
-        <h4>Sales contact</h4>
-        <div class="form-group">
-          <mat-form-field class="col-sm-2">
-            <mat-label>First Name</mat-label>
-            <input type="text" matInput name="firstName" [(ngModel)]="currentCompany.saleContact.firstName"/>
-          </mat-form-field>
-          <mat-form-field class="col-sm-3">
-            <mat-label>Last Name</mat-label>
-            <input type="text" matInput name="lastName" [(ngModel)]="currentCompany.saleContact.lastName"/>
-          </mat-form-field>
-          <mat-checkbox class="col-sm-1" name="visible" [(ngModel)]="currentCompany.saleContact.visible">Visible</mat-checkbox>
-        </div>
+        <fieldset [disabled]="!isLoggedIn">
           <div class="form-group">
-            <mat-form-field class="col-sm-3">
-              <mat-label>Email</mat-label>
-              <input type="email" matInput name="email" [(ngModel)]="currentCompany.saleContact.email"/>
+            <mat-form-field>
+              <mat-label>Flight status : </mat-label>
+              <mat-select name="flightStatus" [ngModel]="currentCompany.cancellationPolicy.flightStatus" (selectionChange)="changeStatus($event)">
+                <mat-option *ngFor="let status of keys(flightStatuses)" [value]="status">{{flightStatuses[status]}}</mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field class="col-sm-3">
-              <mat-label>Phone number</mat-label>
-              <input type="phone" matInput name="phone" [(ngModel)]="currentCompany.saleContact.phoneNumber"/>
+          </div>
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Date until when the flight are {{this.currentCompany.cancellationPolicy.flightStatus}}</mat-label>
+              <input matInput [value]="currentCompany.cancellationPolicy.until" [matDatepicker]="picker" (dateChange)="onDateChange($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-        </div>
-        <div class="form-group">
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>General informations</mat-label>
+              <textarea rows="10" matInput name="generalInfo" [(ngModel)]="currentCompany.cancellationPolicy.generalInfo"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Conditions</mat-label>
+              <textarea rows="10" matInput name="conditions" [(ngModel)]="currentCompany.cancellationPolicy.conditions"></textarea>
+            </mat-form-field>
+          </div>
+          <div *ngIf="isLoggedIn || this.currentCompany.saleContact.visible">
+            <h4>Sales contact</h4>
+            <div class="form-group">
+              <mat-form-field class="col-sm-2">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput name="firstName" [(ngModel)]="currentCompany.saleContact.firstName"/>
+              </mat-form-field>
+              <mat-form-field class="col-sm-3">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput name="lastName" [(ngModel)]="currentCompany.saleContact.lastName"/>
+              </mat-form-field>
+              <mat-checkbox class="col-sm-1" name="visible" [(ngModel)]="currentCompany.saleContact.visible">Visible</mat-checkbox>
+            </div>
+              <div class="form-group">
+                <mat-form-field class="col-sm-3">
+                  <mat-label>Email</mat-label>
+                  <input type="email" matInput name="email" [(ngModel)]="currentCompany.saleContact.email"/>
+                </mat-form-field>
+                <mat-form-field class="col-sm-3">
+                  <mat-label>Phone number</mat-label>
+                  <input type="phone" matInput name="phone" [(ngModel)]="currentCompany.saleContact.phoneNumber"/>
+                </mat-form-field>
+            </div>
+          </div>
+        </fieldset>
+        <div *ngIf="isLoggedIn" class="form-group">
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>

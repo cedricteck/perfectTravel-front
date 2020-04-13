@@ -2,6 +2,7 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {CompanyModel} from "./model/company-model";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class CompaniesService {
@@ -9,11 +10,11 @@ export class CompaniesService {
   constructor(private httpClient: HttpClient) {}
 
   getAllCompanies(): Observable<CompanyModel[]> {
-    return this.httpClient.get<CompanyModel[]>("http://localhost:8092/airlines")
+    return this.httpClient.get<CompanyModel[]>(environment.api.basePath + "/airlines")
   }
 
   saveCompany(company: CompanyModel): Observable<CompanyModel> {
-    return this.httpClient.post<CompanyModel>("http://localhost:8092/airlines/"+ company.id, company);
+    return this.httpClient.post<CompanyModel>(environment.api.basePath + "/airlines/"+ company.id, company);
   }
 
 }
