@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   api: {
-    basePath: "http://localhost:8092"
+    basePath: "http://cedricteck.myqnapcloud.com:16387/perfectTravel"
   }
 };
